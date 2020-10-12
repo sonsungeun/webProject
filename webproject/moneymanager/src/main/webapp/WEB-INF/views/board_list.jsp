@@ -93,7 +93,7 @@ tfoot td {
 </style>
 <script type="text/javascript">
 	function write_go() {
-		location.href = "board_write.jsp";
+		location.href = "goboardwrite.do";
 	}
 </script>
 </head>
@@ -124,14 +124,26 @@ tfoot td {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td class="line" style="width: 10%">1</td>
-						<td class="line" style="width: 50%"><a
-							href="board_onelist.jsp">안녕하세요</a></td>
-						<td class="line" style="width: 15%">관리자</td>
-						<td class="line" style="width: 15%">2020-09-22</td>
-						<td class="line" style="width: 10%">0</td>
-					</tr>
+
+					<c:choose>
+						<c:when test="${empty list}">
+							<tr>
+								<td colspan="5">데이터가 없습닏.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="l" items="${list}" varStatus="vs">
+								<tr>
+									<td class="line" style="width: 10%">${vs.count}</td>
+									<td class="line" style="width: 50%"><a
+										href="goboardonelist.do?idx=${l.idx}">${l.title}</a></td>
+									<td class="line" style="width: 15%">${l.mnickname}</td>
+									<td class="line" style="width: 15%">${l.regdate.substring(0,10)}</td>
+									<td class="line" style="width: 10%">${l.hit}</td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</tbody>
 				<tfoot>
 					<tr>

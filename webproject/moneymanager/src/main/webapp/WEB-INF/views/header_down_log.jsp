@@ -114,7 +114,7 @@ body {
 		<div id="login_position">
 			<c:choose>
 				<c:when test="${login=='ok'}">
-					<div><p><a href="">${mvo.mnickname}</a>님환영합니다.</p></div>
+					<div style="display: inline-block;"><a href="">${mvo.mnickname}님환영합니다.</a></div>&nbsp;&nbsp;&nbsp;
 					<button id="login" onclick="logout_go()">Logout</button>
 				</c:when>
 				<c:otherwise>

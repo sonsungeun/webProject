@@ -144,8 +144,8 @@ th, td {
 			<div id="right_area">
 				<button onclick="">▲이전글</button>
 				<button onclick="">▼다음글</button>
-				<button onclick="javascript:location.href='board_list.jsp'">목록</button>
-				<button onclick="javascript:location.href='board_write.jsp'">글쓰기</button>
+				<button onclick="javascript:location.href='goboard.do'">목록</button>
+				<button onclick="javascript:location.href='goboardwrite.do'">글쓰기</button>
 			</div>
 		</div>
 		<div id="table_container">

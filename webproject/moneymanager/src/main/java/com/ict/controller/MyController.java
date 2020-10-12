@@ -1,13 +1,17 @@
 package com.ict.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ict.db.BVO;
 import com.ict.db.DAO;
 import com.ict.db.MVO;
 import com.ict.model.Paging;
@@ -58,11 +62,42 @@ public class MyController {
 	}
 
 	@RequestMapping("goboard.do")
-	public ModelAndView goBoard() {
+	public ModelAndView goBoard(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("board_list");
+		List<BVO> list = null;
+		try {
+			list = dao.getBoardList();
+			request.setAttribute("list", list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return mv;
 	}
 	
+	@RequestMapping("goboardonelist.do")
+	public ModelAndView goBoardOnelist(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("board_onelist");
+		try {
+			String idx = request.getParameter("idx");
+			BVO bvo=dao.getOnelist(idx);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mv;
+	}
+
+	@RequestMapping("goboardwrite.do")
+	public ModelAndView goBoardWrite() {
+		ModelAndView mv = new ModelAndView("board_write");
+		return mv;
+	}
+
+	@RequestMapping("goboardonelist.do")
+	public ModelAndView goBoardOnelist() {
+		ModelAndView mv = new ModelAndView("board_onelist");
+		return mv;
+	}
+
 	@RequestMapping("login.do")
 	public ModelAndView goLogin() {
 		ModelAndView mv = new ModelAndView("login");
@@ -80,17 +115,15 @@ public class MyController {
 		ModelAndView mv = new ModelAndView("find_id");
 		return mv;
 	}
-	
-
 
 	// 로그인
 	@RequestMapping("login_ok.do")
-	public ModelAndView loginOkCommand(HttpServletRequest request,HttpSession session) {
+	public ModelAndView loginOkCommand(HttpServletRequest request, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		try {
-			String mid=request.getParameter("mid");
-			String mpw=request.getParameter("mpw");
-			MVO mvo = dao.getLogin(mid,mpw);
+			String mid = request.getParameter("mid");
+			String mpw = request.getParameter("mpw");
+			MVO mvo = dao.getLogin(mid, mpw);
 			if (mvo == null) {
 				mv.setViewName("login_fail");
 			} else {
@@ -103,14 +136,26 @@ public class MyController {
 		}
 		return mv;
 	}
-	
+
 	// 로그아웃
 	@RequestMapping("logout.do")
 	public ModelAndView logoutCommand(HttpSession session) {
 		session.invalidate();
 		return new ModelAndView("redirect:gomain.do");
 	}
-	
+
 	// 회원가입
 
+	// 게시판 글작성
+	@RequestMapping(value = "boardwrite.do", method = RequestMethod.POST)
+	public ModelAndView boardWriteOKCommand(BVO bvo) {
+		try {
+			dao.getBoardWrite(bvo);
+			ModelAndView mv = new ModelAndView("redirect:goboard.do");
+			return mv;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return null;
+	}
 }

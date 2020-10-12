@@ -5,6 +5,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.ict.db.MVO" alias="mvo"/>
+		<typeAlias type="com.ict.db.BVO" alias="bvo"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappings/mapper.xml" />

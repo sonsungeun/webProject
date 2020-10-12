@@ -6,6 +6,16 @@
 	<select id="login" parameterType="Map" resultType="mvo">
 		select * from moneymanager_member where mid=#{mid} and mpw=#{mpw}
 	</select>
+	<select id="board_list" resultType="bvo">
+		select * from moneymanager_board order by idx
+	</select>
+	<insert id="boardwrite">
+		insert into moneymanager_board values(moneymanager_board_seq.nextval, #{title},#{mnickname},#{content},0,sysdate)
+	</insert>
+	
+	<select id="board_onelist" resultType="bvo" parameterType="String">
+		select * from moneymanager_board where idx = #{idx}
+	</select>
 </mapper>
 
 

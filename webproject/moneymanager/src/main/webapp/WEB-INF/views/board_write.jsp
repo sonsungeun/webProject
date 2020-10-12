@@ -107,8 +107,13 @@ div #b2 {
 	width: 988px;
 }
 </style>
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
-
+<script type="text/javascript" src="resources/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+	function write_ok(f) {
+		f.action="boardwrite.do"
+		f.submit();
+	}
+</script>
 </head>
 <body>
 	<header id="header">
@@ -124,6 +129,7 @@ div #b2 {
 				<div id="right_area">
 					<input id="ok_btn" type="button" value="등록"
 						onclick="write_ok(this.form)">
+					<input type="hidden" value="${mvo.mnickname}" name="mnickname">
 				</div>
 				<hr id="hr_1">
 				<input type="text" placeholder="제목을 입력해 주세요" name="title" id="title">
