@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.db.BVO;
@@ -73,13 +74,14 @@ public class MyController {
 		}
 		return mv;
 	}
-	
+
 	@RequestMapping("goboardonelist.do")
-	public ModelAndView goBoardOnelist(HttpServletRequest request) {
+	public ModelAndView goBoardOnelist(HttpServletRequest request,HttpSession session) {
 		ModelAndView mv = new ModelAndView("board_onelist");
 		try {
 			String idx = request.getParameter("idx");
-			BVO bvo=dao.getOnelist(idx);
+			BVO bvo = dao.getOnelist(idx);
+			session.setAttribute("bvo", bvo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -92,11 +94,6 @@ public class MyController {
 		return mv;
 	}
 
-	@RequestMapping("goboardonelist.do")
-	public ModelAndView goBoardOnelist() {
-		ModelAndView mv = new ModelAndView("board_onelist");
-		return mv;
-	}
 
 	@RequestMapping("login.do")
 	public ModelAndView goLogin() {
@@ -158,4 +155,5 @@ public class MyController {
 		}
 		return null;
 	}
+	
 }

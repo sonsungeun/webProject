@@ -109,7 +109,7 @@ th, td {
 }
 
 #title {
-	font-size: 26px;
+	font-size: 24px;
 }
 
 #date {
@@ -155,13 +155,13 @@ th, td {
 					<table>
 						<thead>
 							<tr>
-								<th id="title" style="text-align: left;" colspan="3">제목구역</th>
+								<th id="title" style="text-align: left;" colspan="3">${bvo.title}</th>
 							</tr>
 							<tr>
-								<th style="text-align: left;" colspan="3">아이디구역</th>
+								<th style="text-align: left;" colspan="3">글쓴이 : ${bvo.mnickname}</th>
 							</tr>
 							<tr>
-								<td id="date" style="width: 90%">작성일자 구역</td>
+								<td id="date" style="width: 90%">${bvo.regdate}</td>
 								<td style="width: 5%"><input type="button" value="수정"
 									onclick="javascript:location.href='board_update.jsp'"
 									style="border: none; background-color: #f1f1f1; border-radius: 3px; padding: 3px 6px;"></td>
@@ -175,7 +175,7 @@ th, td {
 						</thead>
 						<tbody>
 							<tr>
-								<td colspan="3"><pre>내용구역</pre></td>
+								<td colspan="3"><pre>${bvo.content}</pre></td>
 							</tr>
 						</tbody>
 					</table>

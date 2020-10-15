@@ -128,7 +128,7 @@ tfoot td {
 					<c:choose>
 						<c:when test="${empty list}">
 							<tr>
-								<td colspan="5">데이터가 없습닏.</td>
+								<td colspan="5">데이터가 없습니다.</td>
 							</tr>
 						</c:when>
 						<c:otherwise>

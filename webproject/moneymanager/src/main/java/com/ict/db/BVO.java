@@ -4,6 +4,14 @@ public class BVO {
 	private String idx,title, content, mnickname, regdate;
 	private int hit;
 
+	public String getIdx() {
+		return idx;
+	}
+
+	public void setIdx(String idx) {
+		this.idx = idx;
+	}
+
 	public BVO() {
 	}
 
