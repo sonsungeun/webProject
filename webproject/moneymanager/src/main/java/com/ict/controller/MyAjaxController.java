@@ -5,17 +5,25 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.tomcat.util.json.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ict.service.JsonService;
+
 @RestController
 public class MyAjaxController {
-	// 예금 xml 읽어오기
+	@Autowired
+	private JsonService jsonService;
+	
+	
+	// 예금 json 읽어오기
 	@RequestMapping(value = "recommend_depos.do", produces = "text/html; charset=UTF-8")
 	@ResponseBody
-	public String DepositeXML() {
+	public String DepositeJson(){
 		StringBuffer sb = new StringBuffer();
 		try {
 			URL url = new URL(
@@ -26,7 +34,8 @@ public class MyAjaxController {
 			while ((msg = br.readLine()) != null) {
 				sb.append(msg);
 			}
-
+			// 객체별 파싱
+			jsonService.jsonParser01(sb.toString());
 		} catch (Exception e) {
 			System.out.println(e);
 		}

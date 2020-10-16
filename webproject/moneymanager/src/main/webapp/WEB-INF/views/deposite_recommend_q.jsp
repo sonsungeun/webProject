@@ -215,6 +215,7 @@ input[type=number]::-webkit-inner-spin-button {
 			mydiv2.setAttribute("id","mydiv2");
 			r2.appendChild(mydiv2);
 			depositemoney = $(this).val();
+			// 금액에 , 붙이기
 			var money = comma(depositemoney);
 			var table = "<table style='width: 100%'><tbody><tr><th>예치금 :</th><td>" + money+
 			"원</td><td><input type='button' id='delbtn' value=' X '/></td></tr></tbody></table>";
@@ -227,10 +228,11 @@ input[type=number]::-webkit-inner-spin-button {
 			$('input[name=channel]:checked').each( function() {		
 		        channel += $(this).val() + ",";
 		    });
+			channel = channel.substring(0,channel.length-1);
 			mydiv3 = document.createElement("div");
 			mydiv3.setAttribute("id","mydiv3");
 			r2.appendChild(mydiv3);
-			var table = "<table><tbody><tr><th>가입경로 :</th><td>" + channel.substring(0,channel.length-1)+
+			var table = "<table><tbody><tr><th>가입경로 :</th><td>" + channel+
 			"</td><td><input type='button' id='delbtn' value=' X '/></td></tr></tbody></table>";
 			$("#mydiv3").html(table); 
 		}			
@@ -270,8 +272,9 @@ input[type=number]::-webkit-inner-spin-button {
 		    });
 			mydiv6 = document.createElement("div");
 			mydiv6.setAttribute("id","mydiv6");
+			area = area.substring(0,area.length-1);
 			r2.appendChild(mydiv6);
-			var table = "<table style='width: 100%'><tbody><tr><th>방문가능지역 :</th><td>" + area.substring(0,area.length-1)+
+			var table = "<table style='width: 100%'><tbody><tr><th>방문가능지역 :</th><td>" + area+
 			"</td><td><input type='button' id='delbtn' value=' X '/></td></tr></tbody></table>";
 			$("#mydiv6").html(table); 
 		}			
@@ -289,8 +292,9 @@ input[type=number]::-webkit-inner-spin-button {
 			mydiv7 = document.createElement("div");
 			mydiv7.setAttribute("id","mydiv7");
 			$("#mydiv7").css("overflow","hidden");
+			prefential = prefential.substring(0,prefential.length-1);
 			r2.appendChild(mydiv7);
- 			var table = "<table style='width: 100%'><tbody><tr><th>가입우대조건 :</th><td>" + prefential.substring(0,prefential.length-1)+
+ 			var table = "<table style='width: 100%'><tbody><tr><th>가입우대조건 :</th><td>" + prefential +
 						"</td><td><input type='button' id='delbtn' value=' X '/></td></tr></tbody></table>";
 			$("#mydiv7").html(table);
 			$("#mydiv7").css("overflow-x","hidden");
@@ -302,7 +306,7 @@ input[type=number]::-webkit-inner-spin-button {
 		});
 	});
 
-	// 화폐 단위 , 삽입
+	
 	function recommand_start() {
 		if (month!=null && depositemoney!=null && channel!=null && prefential!=null && area!=null && gender!=null && birth!=null ) {
 			$.ajax({
@@ -321,6 +325,7 @@ input[type=number]::-webkit-inner-spin-button {
 		}
 	}
 	
+	// 화폐 단위 , 삽입
 	function comma(num) {
 		var len, point, str;
 		num = num+"";	// 숫자형 to 문자형
