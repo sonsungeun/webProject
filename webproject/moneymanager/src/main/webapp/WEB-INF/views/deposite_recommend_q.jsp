@@ -308,9 +308,9 @@ input[type=number]::-webkit-inner-spin-button {
 
 	
 	function recommand_start() {
-		if (month!=null && depositemoney!=null && channel!=null && prefential!=null && area!=null && gender!=null && birth!=null ) {
+		/* if (month!=null && depositemoney!=null && channel!=null && prefential!=null && area!=null && gender!=null && birth!=null ) { */
 			$.ajax({
-				url : "recommend_depos.do",
+				url : "recommend_depos.do?month="+month+"&depositemoney="+depositemoney+"&channel="+channel+"&gender="+gender+"&birth="+birth+"&area="+area+"&prefential="+prefential,
 				method : "get",
 				dataType : "text",
 				success : function(data) {
@@ -320,9 +320,9 @@ input[type=number]::-webkit-inner-spin-button {
 					alert("읽기실패");
 				}
 			});
-		}else {
+/* 		}else {
 			alert("필수 입력사항을 입력해주세요");
-		}
+		} */
 	}
 	
 	// 화폐 단위 , 삽입
@@ -402,10 +402,10 @@ input[type=number]::-webkit-inner-spin-button {
 					<span style="color: #E66067; font: 15pt">*</span><span class="one">원하는
 						가입경로</span><br>
 					<div class="contentsmargin">
-						<input type="checkbox" name="channel" value="스마트폰"><span>모바일뱅킹</span>&nbsp;&nbsp;
 						<input type="checkbox" name="channel" value="영업점"><span>영업점</span>
 						&nbsp;&nbsp;<input type="checkbox" name="channel" value="인터넷"><span>인터넷뱅킹</span>
-						&nbsp;&nbsp;<input type="checkbox" name="channel" value="전화(텔레뱅킹)"><span>콜센터</span>
+						&nbsp;&nbsp;<input type="checkbox" name="channel" value="스마트폰"><span>모바일뱅킹</span>&nbsp;&nbsp;
+						<input type="checkbox" name="channel" value="전화(텔레뱅킹)"><span>콜센터</span>
 					</div>
 					<span style="color: #E66067; font: 15pt">*</span><span class="one">성별</span><br>
 					<div class="contentsmargin">
