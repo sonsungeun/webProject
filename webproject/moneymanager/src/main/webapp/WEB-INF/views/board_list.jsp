@@ -1,3 +1,4 @@
+<%@page import="com.ict.db.DAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -92,9 +93,16 @@ tfoot td {
 }
 </style>
 <script type="text/javascript">
-	function write_go() {
-		location.href = "goboardwrite.do";
+function write_go() {
+	var login = '${mvo}';
+	if(login == null){
+		alert("로그인 후에 작성이 가능합니다.");
+		javascript:location.href='login.do';
+	}else {
+		javascript:location.href='goboardwrite.do';
 	}
+}
+	
 </script>
 </head>
 <body>
@@ -136,7 +144,7 @@ tfoot td {
 								<tr>
 									<td class="line" style="width: 10%">${vs.count}</td>
 									<td class="line" style="width: 50%"><a
-										href="goboardonelist.do?b_idx=${l.b_idx}&cPage=${paging.nowPage}">${l.title}</a></td>
+										href="goboardonelist.do?b_idx=${l.b_idx}&cPage=${paging.nowPage}" onclick="hit_up()">${l.title}</a></td>
 									<td class="line" style="width: 15%">${l.mnickname}</td>
 									<td class="line" style="width: 15%">${l.regdate.substring(0,10)}</td>
 									<td class="line" style="width: 10%">${l.hit}</td>

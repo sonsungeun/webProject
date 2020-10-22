@@ -1,5 +1,6 @@
 package com.ict.db;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,12 @@ public class DAO {
 
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		this.sqlSessionTemplate = sqlSessionTemplate;
+	}
+	// 회원가입 id 중복 체크
+	public Integer getMemidChk(String mid) throws Exception{
+		int result = 0;
+		result=sqlSessionTemplate.selectOne("joincheck",mid);
+		return result;
 	}
 	
 	// 로그인
@@ -50,14 +57,14 @@ public class DAO {
 	}
 	
 	// 조회수 업데이트
-	public void getHitUp(String idx) throws Exception{
-		sqlSessionTemplate.update("hitup",idx);
+	public void getHitUp(String b_idx) throws Exception{
+		sqlSessionTemplate.update("hitup",b_idx);
 	}
 	
 	// 게시글 불러오기
-	public BVO getOnelist(String idx) throws Exception{
+	public BVO getOnelist(String b_idx) throws Exception{
 		BVO bvo = null;
-		bvo = sqlSessionTemplate.selectOne("board_onelist", idx);
+		bvo = sqlSessionTemplate.selectOne("board_onelist", b_idx);
 		return bvo;
 	}
 	
@@ -68,6 +75,23 @@ public class DAO {
 	// 게시글 삭제
 	public void getBoardDelete(BVO bvo) throws Exception{
 		sqlSessionTemplate.delete("boarddelete", bvo);
+	}
+	
+	// 댓글 작성
+	public void getCommentWrite(CVO cvo) throws Exception{
+		sqlSessionTemplate.insert("commentwrite", cvo);
+	}
+	
+	// 댓글 불러오기
+	public List<CVO> getCList(String b_idx) throws Exception{
+		List<CVO> list = null;
+		list= sqlSessionTemplate.selectList("comment_list", b_idx);
+		return list;
+	}
+	
+	// 댓글 삭제
+	public void getCommentDelete(String c_idx) throws Exception{
+		sqlSessionTemplate.delete("commentdelete", c_idx);
 	}
 	
 	

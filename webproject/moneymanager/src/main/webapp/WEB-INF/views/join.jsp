@@ -134,6 +134,47 @@ label {
 	margin-top: 15px;
 }
 </style>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#myid").keyup(function() {
+		$.ajax({
+            url : "getmemlist.do",
+            type : "get",
+            dataType : "text",
+            data : "mid="+$("#myid").val(), 
+            success : function(data) {
+                $("#error1").html(data);
+            },
+            error : function name() {
+                alert("실패");
+            }
+        });
+	});
+	var mypw="";
+	var mypwchk="";
+	$("#mypw").keyup(function() {
+		mypw = $(this).val();
+		if (mypw.length<9) {
+			 $("#error2").html("9글자 이상의 비밀번호를 입력해주세요");
+		}else {
+			$("#error2").html("");
+		}
+	});
+	
+	$("#mypwchk").keyup(function() {
+		mypwchk = $(this).val();
+		if (mypw!=mypwchk) {
+			 $("#error3").html("입력하신 비밀번호가 일치하지 않습니다.");
+		}else {
+			$("#error3").html("");
+		}
+	});
+	
+});
+</script>
+
 </head>
 <body>
 	<header>
@@ -154,42 +195,42 @@ label {
 							<label>아이디</label>
 						</h3>
 						<span class="inbox"><input type="text"
-							placeholder="아이디를 입력" name=""></span> <br> <span
-							class="msgbox_error">이곳은 오류 메세지 구역</span>
+							placeholder="아이디를 입력" id="myid" name="mid"></span> <br> <span
+							class="msgbox_error" id="error1"></span>
 						<h3 class="title">
 							<label>비밀번호</label>
 						</h3>
 						<span class="inbox"><input type="password"
-							placeholder="비밀번호를 입력" name=""></span> <br> <span
-							class="msgbox_error">이곳은 오류 메세지 구역</span>
+							placeholder="비밀번호를 입력"id="mypw"  name="mpw"></span> <br> <span
+							class="msgbox_error" id="error2"></span>
 						<h3 class="title">
 							<label>비밀번호 재확인</label>
 						</h3>
 						<span class="inbox"><input type="password"
-							placeholder="비밀번호를 다시 한번 입력"></span> <br> <span
-							class="msgbox_error">이곳은 오류 메세지 구역</span>
+							placeholder="비밀번호를 다시 한번 입력" id="mypwchk"></span> <br> <span
+							class="msgbox_error" id="error3"></span>
 					</div>
 					<div id="in_sub">
 						<h3 class="title">
 							<label>이름</label>
 						</h3>
-						<span class="inbox"><input type="text" name=""></span>
+						<span class="inbox"><input type="text" name="mname"></span>
 						<h3 class="title">
 							<label>닉네임(게시판용)</label>
 						</h3>
-						<span class="inbox"><input type="text" name=""></span>
+						<span class="inbox"><input type="text" name="mnickname"></span>
 						<h3 class="title">
 							<label>비밀번호 찾기용 답</label>
 						</h3>
 						<span class="inbox"><input type="text"
-							placeholder="비밀번호 찾을때 필요" name=""></span>
+							placeholder="비밀번호 찾을때 필요" name="mfindpw"></span>
 					</div>
 					<div id="in_phone">
 						<h3 class="title">
 							<label>휴대전화</label>
 						</h3>
 						<span class="inbox" id="inbox_p"><input type="text"
-							placeholder="-을 제외한 휴대전화 번호를 입력" name=""></span> <input
+							placeholder="-을 제외한 휴대전화 번호를 입력" name="mphone"></span> <input
 							class="btn" type="button" value="인증번호 받기">
 						<hr style="margin: 5px; border-style: none;">
 						<span class="inbox" id="inbox_p_answer"><input type="text"

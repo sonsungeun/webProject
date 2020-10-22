@@ -139,7 +139,7 @@ input {
 			<hr
 				style="width: 300px; border: 1px solid black; border-style: solid none none none; margin-top: 5px;">
 		</div>
-		<img id="img_kakao" src="resource/kakao_login.png" onclick="kakao_log_go()">
+		<img id="img_kakao" src="/resources/kakao_login_medium_wide.png" onclick="kakao_log_go()">
 		<div class="content_2">
 			<hr
 				style="width: 300px; border: 1px solid #cfc3c3; border-style: solid none none none; margin-top: 5px;">

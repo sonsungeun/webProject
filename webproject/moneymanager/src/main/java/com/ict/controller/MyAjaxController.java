@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ict.db.DAO;
 import com.ict.db.DepositeVO;
 import com.ict.db.MyVO1;
 import com.ict.service.JsonService;
@@ -23,8 +26,31 @@ import com.ict.service.JsonService;
 public class MyAjaxController {
 	@Autowired
 	private JsonService jsonService;
-	
-	
+
+	@Autowired
+	private DAO dao;
+
+	public void setDao(DAO dao) {
+		this.dao = dao;
+	}
+	// 회원가입 중복감지용 회원리스트 읽어오기
+	@RequestMapping(value = "getmemlist.do",method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> GetMemid(HttpServletRequest request){
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			String mid = request.getParameter("mid");
+			int result=dao.getMemidChk(mid);
+			if (result==0) {
+				map.put("result", "사용가능한 아이디입니다.");
+			}else {
+				map.put("result", "아이디가 이미 존재합니다.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
 	// 예금 json 읽어오기
 	@RequestMapping(value = "recommend_depos.do", produces = "text/html; charset=UTF-8")
 	@ResponseBody

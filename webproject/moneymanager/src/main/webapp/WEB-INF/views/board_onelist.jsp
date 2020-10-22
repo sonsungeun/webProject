@@ -135,6 +135,38 @@ th, td {
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+	function boarddelete_go(f) {
+		var chk = confirm("이 게시글을 정말 삭제할까요?");
+		if (chk == true) {
+			f.action = "boarddelete_ok.do";
+			f.submit();
+		}
+	}
+
+	function comment_ok(f) {
+		f.action = "commentinsert.do?cPage=${cPage}&b_idx=${bvo.b_idx}";
+		f.submit();
+	}
+
+	function go_cmt_del(f) {
+		var chk = confirm("댓글을 정말 삭제할까요?");
+		if (chk==true) {
+			f.action = "commentdelete.do?cPage=${cPage}&b_idx=${bvo.b_idx}";
+			f.submit();
+		}
+	}
+	
+	function boardwrite_go() {
+		var login = '${mvo}';
+		if(login == null){
+			alert("로그인 후에 작성이 가능합니다.");
+			javascript:location.href='login.do';
+		}else {
+			javascript:location.href='goboardwrite.do';
+		}
+	}
+</script>
+<script type="text/javascript">
 	$(function() {
 		$("#textarea").keyup(function() {
 			var mytext = $(this).val();
@@ -145,20 +177,11 @@ th, td {
 				$("#textscan").html("(200 / 200)");
 			}
 		});
+		$("#textarea_nologin").click(function() {
+			alert("로그인 후에 작성이 가능합니다.")
+			location.href = "login.do";
+		})
 	});
-
-	function boarddelete_go(f) {
-		var chk = confirm("이 게시글을 정말 삭제할까요?");
-		if (chk == true) {
-			f.action = "boarddelete_ok.do";
-			f.submit();
-		}
-	}
-	
-	function comment_ok(f) {
-		f.action = "commentinsert.do";
-		f.submit();
-	}
 </script>
 </head>
 <body>
@@ -175,7 +198,7 @@ th, td {
 				<button onclick="">▼다음글</button>
 				<button
 					onclick="javascript:location.href='goboard.do?cPage=${cPage}'">목록</button>
-				<button onclick="javascript:location.href='goboardwrite.do'">글쓰기</button>
+				<button onclick="boardwrite_go()">글쓰기</button>
 			</div>
 		</div>
 		<div id="table_container">
@@ -194,20 +217,20 @@ th, td {
 							<tr>
 								<td id="date" style="width: 90%">${bvo.regdate}</td>
 								<c:choose>
-								<c:when test="${mvo.mnickname==bvo.mnickname}">
-								<td style="width: 5%"><input type="button" value="수정"
-									onclick="javascript:location.href='goboardupdate.do'"
-									style="border: none; background-color: #f1f1f1; border-radius: 3px; padding: 3px 6px;"></td>
-								<td style="width: 5%"><input type="button" value="삭제"
-									onclick="boarddelete_go(this.form)"
-									style="border: none; background-color: #f1f1f1; border-radius: 3px; padding: 3px 6px;">
-									<input type="hidden" value="${bvo.b_idx}" name="b_idx"> <input
-									type="hidden" value="${cPage}" name="cPage"></td>
-								</c:when>
-								<c:otherwise>
-								<td style="width: 5%"></td>
-								<td style="width: 5%"></td>
-								</c:otherwise>
+									<c:when test="${mvo.mnickname==bvo.mnickname}">
+										<td style="width: 5%"><input type="button" value="수정"
+											onclick="javascript:location.href='goboardupdate.do'"
+											style="border: none; background-color: #f1f1f1; border-radius: 3px; padding: 3px 6px;"></td>
+										<td style="width: 5%"><input type="button" value="삭제"
+											onclick="boarddelete_go(this.form)"
+											style="border: none; background-color: #f1f1f1; border-radius: 3px; padding: 3px 6px;">
+											<input type="hidden" value="${bvo.b_idx}" name="b_idx">
+											<input type="hidden" value="${cPage}" name="cPage"></td>
+									</c:when>
+									<c:otherwise>
+										<td style="width: 5%"></td>
+										<td style="width: 5%"></td>
+									</c:otherwise>
 								</c:choose>
 							</tr>
 							<tr>
@@ -217,8 +240,8 @@ th, td {
 						<tbody>
 							<tr>
 								<!-- ckeditor 써서 보이는게 예쁜지 아니면 그냥 아무것도 없는게 예쁜지 잘 모르겠음 -->
-								<td colspan="3">
-								<script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+								<td colspan="3"><script
+										src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 									<textarea name="content" readonly><pre>${bvo.content}</pre></textarea>
 									<script>
 										CKEDITOR.replace('content');
@@ -230,30 +253,42 @@ th, td {
 			</div>
 			<!-- 저장된 댓글 불러오기  -->
 			<div id="comment">
-				<form method="get">
-					<table>
-						<thead>
+
+				<table>
+					<thead>
+						<tr>
+							<th class="line" colspan="3" style="text-align: left;">댓글&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="radio" checked="checked" onclick="comment_desc()"
+								id="desc" name="comment" value="">등록순&nbsp;&nbsp;<input
+								type="radio" onclick="comment_asc()" id="asc" name="comment"
+								value="">최신순
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="k" items="${c_list}">
+							<form method="post">
 							<tr>
-								<th class="line" colspan="2" style="text-align: left;">댓글&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="radio" checked="checked" onclick="comment_desc()"
-									id="desc" name="comment" value="">등록순&nbsp;&nbsp;<input
-									type="radio" onclick="comment_asc()" id="asc" name="comment"
-									value="">최신순
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="line" style="color: blue;" colspan="2">댓글작성자</td>
+								<td class="line" style="color: blue; width: 10%;">${k.writer}</td>
+								<td class="line" style="width: 85%;">${k.write_date}</td>
+								<td class="line" style="width: 5%;"></td>
 							</tr>
 							<tr>
-								<td style="width: 95%; padding-left: 20px;">댓글내용</td>
-								<td style="width: 5%"><input type="button" value="삭제"
-									style="border: none; background-color: #f1f1f1; border-radius: 3px; padding: 3px 6px;"></td>
+								<td style="width: 95%; padding-left: 20px;" colspan="2">${k.contents}</td>
+								<td style="width: 5%"><c:if
+										test="${k.writer==mvo.mnickname}">
+										<input type="button" value="삭제"
+											style="border: none; background-color: #f1f1f1; border-radius: 3px; padding: 3px 6px;"
+											onclick="go_cmt_del(this.form)">
+									</c:if> <input type="hidden" value="${k.c_idx}" name="c_idx">
+									<input type="hidden" value="${k.b_idx}" name="b_idx"> <input
+									type="hidden" value="${cPage}" name="cPage"></td>
 							</tr>
-						</tbody>
-					</table>
-				</form>
+							</form>
+						</c:forEach>
+					</tbody>
+				</table>
+
 			</div>
 			<!-- 댓글작성  -->
 			<div id="comment_writer">
@@ -264,14 +299,31 @@ th, td {
 								<td>${mvo.mnickname}</td>
 							</tr>
 							<tr>
-								<td style="width: 85%"><input type="text"
-									style="border: none;" size="120" placeholder="댓글을 남겨보세요"
-									id="textarea" name="contents"></td>
-								<td style="text-align: right; width: 10%"><span
-									id="textscan">(0 / 200)</span></td>
-								<td style="width: 5%"><input type="button" value="등록"
-									onclick="comment_ok(this.form)"
-									style="border: none; background-color: #f1f1f1; border-radius: 3px; padding: 3px 6px;"></td>
+								<c:choose>
+									<c:when test="${empty mvo}">
+										<td style="width: 85%"><input type="text"
+											style="border: none;" size="120"
+											placeholder="로그인 후 댓글을 남겨보세요" id="textarea_nologin"
+											name="contents"></td>
+										<td style="text-align: right; width: 10%"><span
+											id="textscan">(0 / 200)</span></td>
+										<td style="width: 5%"><input type="button" value="등록"
+											onclick="comment_ok(this.form)"
+											style="border: none; background-color: #f1f1f1; border-radius: 3px; padding: 3px 6px;">
+											<input type="hidden" name="writer" value="${mvo.mnickname}"></td>
+									</c:when>
+									<c:otherwise>
+										<td style="width: 85%"><input type="text"
+											style="border: none;" size="120" placeholder="댓글을 남겨보세요"
+											id="textarea" name="contents"></td>
+										<td style="text-align: right; width: 10%"><span
+											id="textscan">(0 / 200)</span></td>
+										<td style="width: 5%"><input type="button" value="등록"
+											onclick="comment_ok(this.form)"
+											style="border: none; background-color: #f1f1f1; border-radius: 3px; padding: 3px 6px;">
+											<input type="hidden" name="writer" value="${mvo.mnickname}"></td>
+									</c:otherwise>
+								</c:choose>
 							</tr>
 					</table>
 				</form>

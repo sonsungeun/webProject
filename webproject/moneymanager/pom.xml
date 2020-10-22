@@ -124,7 +124,7 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>5.2.7.RELEASE</version>
 		</dependency>
-		
+
 		<!-- json파싱 -->
 		<dependency>
 			<groupId>org.json</groupId>
@@ -146,6 +146,13 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>2.0.5</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
