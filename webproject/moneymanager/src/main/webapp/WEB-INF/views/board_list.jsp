@@ -136,7 +136,7 @@ tfoot td {
 								<tr>
 									<td class="line" style="width: 10%">${vs.count}</td>
 									<td class="line" style="width: 50%"><a
-										href="goboardonelist.do?idx=${l.idx}">${l.title}</a></td>
+										href="goboardonelist.do?b_idx=${l.b_idx}&cPage=${paging.nowPage}">${l.title}</a></td>
 									<td class="line" style="width: 15%">${l.mnickname}</td>
 									<td class="line" style="width: 15%">${l.regdate.substring(0,10)}</td>
 									<td class="line" style="width: 10%">${l.hit}</td>
@@ -147,7 +147,41 @@ tfoot td {
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="5">이곳은 페이징 기법이 적용될 곳</td>
+						<td colspan="5">
+							<!-- 이전  --> 
+							<c:choose>
+								<c:when test="${paging.beginBlock > paging.pagePerBlock }">
+									<a
+										href="goboard.do?cPage=${paging.beginBlock-paging.pagePerBlock}"><span
+										style="font-size: 4pt; background: #FFBE5B;">&nbsp;&nbsp;&nbsp;이전으로&nbsp;&nbsp;&nbsp;</span></a>
+								</c:when>
+								<c:otherwise>
+									<span style="font-size: 4pt; background: #FFBE5B; color: gray;">&nbsp;&nbsp;&nbsp;이전으로&nbsp;&nbsp;&nbsp;</span>
+								</c:otherwise>
+							</c:choose> 
+							<!-- 페이지번호 --> 
+							<c:forEach begin="${paging.beginBlock}"
+								end="${paging.endBlock }" step="1" var="k">
+								<c:choose>
+									<c:when test="${k==paging.nowPage}">
+										<span style="font-size: 4pt">&nbsp;&nbsp;&nbsp;<b>${k}</b>&nbsp;&nbsp;&nbsp;</span>
+									</c:when>
+									<c:otherwise>
+										<a href="goboard.do?cPage=${k}"><span style="font-size: 4pt">&nbsp;&nbsp;&nbsp;${k}&nbsp;&nbsp;&nbsp;</span></a>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach> 
+							<!-- 이후 --> 
+							<c:choose>
+								<c:when test="${paging.endBlock < paging.totalPage }">
+									<a href="goboard.do?cPage=${paging.endBlock+1}"><span
+										style="font-size: 4pt; background: #FFBE5B;">&nbsp;&nbsp;&nbsp;다음으로&nbsp;&nbsp;&nbsp;</span></a>
+								</c:when>
+								<c:otherwise>
+									<span style="font-size: 4pt; background: #FFBE5B; color: gray;">&nbsp;&nbsp;&nbsp;다음으로&nbsp;&nbsp;&nbsp;</span>
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 				</tfoot>
 			</table>

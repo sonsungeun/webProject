@@ -17,7 +17,7 @@ import com.ict.db.MyVO1;
 @Service
 public class JsonServiceImpl implements JsonService {
 	JSONParser parser;
-	
+
 	@Override
 	public void jsonParser01(String json, MyVO1 mine) {
 		// deposite json을 상품별로 vo에 담는다.
@@ -71,7 +71,8 @@ public class JsonServiceImpl implements JsonService {
 		for (DepositeVO k : all) {
 			// 내가 선택한 가입경로, 한도가 예치금 이내의 상품만 뽑아오기
 			if (k.getJoin_way().contains(channels)
-					&& Long.parseLong(k.getMax_limit()) <= Long.parseLong(my.getDepositemoney())) {
+					&& (Long.parseLong(k.getMax_limit()) >= Long.parseLong(my.getDepositemoney())
+							|| Long.parseLong(k.getMax_limit()) == 0)) {
 				resultList.add(k);
 			}
 		}
@@ -120,7 +121,7 @@ public class JsonServiceImpl implements JsonService {
 		System.out.println("내 입력 체널 : " + mine.getChannel());
 		System.out.println("내 예치금 : " + mine.getDepositemoney());
 		for (DepositeVO k : resultList) {
-			if (resultList.size()==0) {
+			if (resultList.size() == 0) {
 				System.out.println("상품이 없습니다.");
 			}
 			System.out.println(k + "번째 결과");
@@ -130,28 +131,27 @@ public class JsonServiceImpl implements JsonService {
 			System.out.println("예치기간" + k.getSave_trm());
 		}
 		System.out.println(resultList.size());
-		// 결과(resultList)를 이자율 높은 순으로 정렬 
-		Collections.sort(resultList, new Comparator<DepositeVO>() {@Override
-		public int compare(DepositeVO o1, DepositeVO o2) {
-			double testint1 = Double.parseDouble(o1.getIntr_rate());
-			double testint2 = Double.parseDouble(o2.getIntr_rate());
-			
-			if (testint1>testint2) {
-				return -1;
-			}else if (testint1 < testint2) {
-				return 1;	
-			}else {
-				return 0;
+		// 결과(resultList)를 이자율 높은 순으로 정렬
+		Collections.sort(resultList, new Comparator<DepositeVO>() {
+			@Override
+			public int compare(DepositeVO o1, DepositeVO o2) {
+				double testint1 = Double.parseDouble(o1.getIntr_rate());
+				double testint2 = Double.parseDouble(o2.getIntr_rate());
+
+				if (testint1 > testint2) {
+					return -1;
+				} else if (testint1 < testint2) {
+					return 1;
+				} else {
+					return 0;
+				}
 			}
-		}
 		});
-		
+
 		for (DepositeVO k : resultList) {
-			System.out.println("이자율 : "+k.getIntr_rate());
-			System.out.println("상품명 : "+k.getFin_prdt_nm());
+			System.out.println("이자율 : " + k.getIntr_rate());
+			System.out.println("상품명 : " + k.getFin_prdt_nm());
 			System.out.println("====================");
 		}
 	}
 }
-
-

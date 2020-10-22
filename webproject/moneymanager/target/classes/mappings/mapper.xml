@@ -5,28 +5,43 @@
 <mapper namespace="moneymanager">
 	<select id="login" parameterType="Map" resultType="mvo">
 		select * from
-		moneymanager_member where mid=#{mid} and mpw=#{mpw}
+		mm_member where mid=#{mid} and mpw=#{mpw}
 	</select>
-	<select id="board_list" resultType="bvo">
-		select * from
-		moneymanager_board order by idx desc
+
+	<select id="totalCount" resultType="int">
+		select count(*) from
+		mm_board
 	</select>
-	<insert id="boardwrite">
-		insert into moneymanager_board
-		values(moneymanager_board_seq.nextval,
-		#{title},#{mnickname},#{content},0,sysdate)
+	<select id="board_list" parameterType="Map" resultType="bvo">
+		select * from(select rownum
+		r_num, a.* from	(select * from mm_board order by b_idx desc)a)
+		where r_num between #{begin} and #{end}
+	</select>
+	<insert id="boardwrite" parameterType="mvo">
+		insert into mm_board
+		values(mm_board_seq.nextval,
+		#{mnickname},#{mid},#{title},#{content},0,sysdate)
 	</insert>
 
 	<select id="board_onelist" resultType="bvo"
 		parameterType="String">
-		select * from moneymanager_board where idx = #{idx}
+		select * from mm_board where b_idx = #{b_idx}
 	</select>
 	<!-- 회원가입 중복id방지 -->
-<!-- 	<select id="joincheck" resultType="mvo">
-		select mid from
-		moneymanager_member
-	</select>
- -->
+	<!-- <select id="joincheck" resultType="mvo"> select mid from moneymanager_member 
+		</select> -->
+	<update id="boardupdate" parameterType="bvo">
+		update mm_board set title=#{title}, content=#{content} where
+		b_idx=#{b_idx}
+	</update>
+
+	<delete id="boarddelete" parameterType="bvo">
+		delete from mm_board where b_idx=#{b_idx}
+	</delete>
+
+	<update id="hitup" parameterType="String">
+		update mm_board set hit=hit+1 where b_idx=#{b_idx}
+	</update>
 </mapper>
 
 

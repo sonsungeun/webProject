@@ -107,10 +107,10 @@ div #b2 {
 	width: 988px;
 }
 </style>
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="resources/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
 	function update_ok(f) {
-		f.action = "";
+		f.action = "boardupdate_ok.do";
 		f.submit();
 	}
 </script>
@@ -129,10 +129,12 @@ div #b2 {
 				<div id="right_area">
 					<input id="ok_btn" type="button" value="수정"
 						onclick="update_ok(this.form)">
+						<input type="hidden" value="${bvo.b_idx}" name="b_idx">
+						<input type="hidden" value="${cPage}" name="cPage">
 				</div>
 				<hr id="hr_1">
-				<input type="text" placeholder="제목을 입력해 주세요" name="title" id="title">
-				<textarea id="content" name="content"></textarea>
+				<input type="text" name="title" id="title" value="${bvo.title}">
+				<textarea id="content" name="content">${bvo.content}</textarea>
 				<script type="text/javascript">
 					CKEDITOR.replace('content');
 				</script>
