@@ -34,7 +34,12 @@
 	<select id="joincheck" parameterType="String" resultType="int">
 		select count(*) from mm_member where mid=#{mid}
 	</select>
-
+	
+	<!-- 회원가입 -->
+	<insert id="join" parameterType="mvo">
+		insert into mm_member values(#{mid},#{mnickname},#{mpw},#{mname},#{mfindpw},#{mphone})
+	</insert>
+	
 	<update id="boardupdate" parameterType="bvo">
 		update mm_board set
 		title=#{title}, content=#{content} where

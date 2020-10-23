@@ -192,6 +192,7 @@ input[type=number]::-webkit-inner-spin-button {
 	var birth;
 	var area;
 	var prefential;
+	
 	$(document).ready(function() {
 		var r2 = document.querySelector(".r2");
 		var mydiv1,mydiv2,mydiv3,mydiv4,mydiv5,mydiv6,mydiv7;

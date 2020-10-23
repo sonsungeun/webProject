@@ -137,52 +137,85 @@ label {
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-$(function() {
-	$("#myid").keyup(function() {
+	function send_msg() {
+		var phonenum = $("#phone").val();
+		/* 인증번호 입력창, 버튼 on */
+		$("#inputnum").attr("disabled", false);
+		$("#chkbtn").attr("disabled", false);
 		$.ajax({
-            url : "getmemlist.do",
-            type : "get",
-            dataType : "text",
-            data : "mid="+$("#myid").val(), 
-            success : function(data) {
-                $("#error1").html(data);
-            },
-            error : function name() {
-                alert("실패");
-            }
-        });
-	});
-	var mypw="";
-	var mypwchk="";
-	$("#mypw").keyup(function() {
-		mypw = $(this).val();
-		if (mypw.length<9) {
-			 $("#error2").html("9글자 이상의 비밀번호를 입력해주세요");
-		}else {
-			$("#error2").html("");
-		}
-	});
+			url : "sendmsg.do",
+			type : "get",
+			dataType : "text",
+			data : "phone=" + phonenum,
+			success : function(data) {
+				var inputnum = $("#inputnum").val();
+				if (inputnum==data) {
+					$("#error4").css("color","blue");
+					$("#error4").html("인증 성공!");
+					$("#joinbtn").attr("disabled",false);
+				}else {
+					("#error4").css("color","red");
+					$("#error4").html("인증 실패")
+				}
+			},
+			error : function() {
+				alert("실패");
+			}
+		});
+	}
 	
-	$("#mypwchk").keyup(function() {
-		mypwchk = $(this).val();
-		if (mypw!=mypwchk) {
-			 $("#error3").html("입력하신 비밀번호가 일치하지 않습니다.");
-		}else {
-			$("#error3").html("");
-		}
+	function join_go(f) {
+		f.action="join_ok.do";
+		f.submit();
+	}
+</script>
+<script type="text/javascript">
+	$(function() {
+		$("#myid").keyup(function() {
+			$.ajax({
+				url : "getmemlist.do",
+				type : "get",
+				dataType : "text",
+				data : "mid=" + $("#myid").val(),
+				success : function(data) {
+					$("#error1").html(data);
+				},
+				error : function name() {
+					alert("실패");
+				}
+			});
+		});
+		var mypw = "";
+		var mypwchk = "";
+		$("#mypw").keyup(function() {
+			mypw = $(this).val();
+			if (mypw.length < 9) {
+				$("#error2").html("9글자 이상의 비밀번호를 입력해주세요");
+			} else {
+				$("#error2").html("");
+			}
+		});
+
+		$("#mypwchk").keyup(function() {
+			mypwchk = $(this).val();
+			if (mypw != mypwchk) {
+				$("#error3").html("입력하신 비밀번호가 일치하지 않습니다.");
+			} else {
+				$("#error3").html("");
+			}
+		});
+
 	});
-	
-});
 </script>
 
 </head>
 <body>
 	<header>
 		<div id="logo">
-			<a href="mainpage.jsp"><span>moneymanager</span></a>
+			<a href="gomain.do"><span>moneymanager</span></a>
 		</div>
 		<div id="login_position">
-			<button id="login" onclick="javascript:location.href='login.jsp'">Login</button>
+			<button id="login" onclick="javascript:location.href='login.do'">Login</button>
 		</div>
 	</header>
 	<div id="page">
@@ -201,7 +234,7 @@ $(function() {
 							<label>비밀번호</label>
 						</h3>
 						<span class="inbox"><input type="password"
-							placeholder="비밀번호를 입력"id="mypw"  name="mpw"></span> <br> <span
+							placeholder="비밀번호를 입력" id="mypw" name="mpw"></span> <br> <span
 							class="msgbox_error" id="error2"></span>
 						<h3 class="title">
 							<label>비밀번호 재확인</label>
@@ -229,17 +262,18 @@ $(function() {
 						<h3 class="title">
 							<label>휴대전화</label>
 						</h3>
-						<span class="inbox" id="inbox_p"><input type="text"
-							placeholder="-을 제외한 휴대전화 번호를 입력" name="mphone"></span> <input
-							class="btn" type="button" value="인증번호 받기">
+						<span class="inbox" id="inbox_p"><input id="phone"
+							type="text" placeholder="-을 제외한 휴대전화 번호를 입력" name="mphone"></span>
+						<input class="btn" type="button" value="인증번호 받기"
+							onclick="send_msg()">
 						<hr style="margin: 5px; border-style: none;">
 						<span class="inbox" id="inbox_p_answer"><input type="text"
-							disabled></span> <input type="button" class="btn"
+							id="inputnum" disabled></span> <input type="button" class="btn" id="chkbtn"
 							placeholder="인증번호 입력" value="인증번호 확인" disabled> <br>
-						<span class="msgbox_error">이곳은 인증번호 오류 메세지 구역</span>
+						<span class="msgbox_error" id="error4">이곳은 인증번호 오류 메세지 구역</span>
 					</div>
 					<input id="joinbtn" type="button" value="가입하기"
-						onclick="join_go(this)">
+						onclick="join_go(this.form)">
 				</fieldset>
 			</div>
 		</form>

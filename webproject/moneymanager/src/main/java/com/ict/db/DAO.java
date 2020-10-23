@@ -13,11 +13,16 @@ public class DAO {
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		this.sqlSessionTemplate = sqlSessionTemplate;
 	}
+	
 	// 회원가입 id 중복 체크
 	public Integer getMemidChk(String mid) throws Exception{
 		int result = 0;
 		result=sqlSessionTemplate.selectOne("joincheck",mid);
 		return result;
+	}
+	// 회원가입
+	public void getJoin(MVO mvo) throws Exception{
+		sqlSessionTemplate.insert("join", mvo);
 	}
 	
 	// 로그인

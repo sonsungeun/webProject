@@ -19,7 +19,7 @@ public class JsonServiceImpl implements JsonService {
 	JSONParser parser;
 
 	@Override
-	public void jsonParser01(String json, MyVO1 mine) {
+	public ArrayList<DepositeVO> jsonParser01(String json, MyVO1 mine) {
 		// deposite json을 상품별로 vo에 담는다.
 		ArrayList<DepositeVO> all = new ArrayList<DepositeVO>();
 		ArrayList<DepositeVO> allInt = new ArrayList<DepositeVO>();
@@ -153,5 +153,13 @@ public class JsonServiceImpl implements JsonService {
 			System.out.println("상품명 : " + k.getFin_prdt_nm());
 			System.out.println("====================");
 		}
+		
+		return resultList;
+	}
+	
+	@Override
+	public void jsonParser02(String str, MyVO1 mVo1) {
+		// TODO Auto-generated method stub
+		
 	}
 }

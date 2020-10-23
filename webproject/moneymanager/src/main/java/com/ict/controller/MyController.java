@@ -124,7 +124,17 @@ public class MyController {
 	}
 
 	// 회원가입
-
+	@RequestMapping("join_ok.do")
+	public ModelAndView joinOkCommand(MVO mvo,HttpServletRequest request, HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		try {
+			dao.getJoin(mvo);
+			mv.setViewName("redirect:gomain.do");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return mv;
+	}
 	// 게시글작성
 	@RequestMapping(value = "boardwrite.do", method = RequestMethod.POST)
 	public ModelAndView boardWriteOKCommand(BVO bvo,HttpSession session) {
@@ -269,6 +279,7 @@ public class MyController {
 		}
 		return null;
 	}
+	
 	
 	
 

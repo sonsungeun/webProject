@@ -153,10 +153,10 @@ div .r_in{
 <body>
 	<header>
 		<div id="logo">
-			<a href="mainpage.jsp"><span>moneymanager</span></a>
+			<a href="gomain.do"><span>moneymanager</span></a>
 		</div>
 		<div id="login_position">
-			<button id="login" onclick="login_go()">Login</button>
+			<button id="login" onclick="javascript:location.href='login.do'">Login</button>
 		</div>
 	</header>
 	<nav>
