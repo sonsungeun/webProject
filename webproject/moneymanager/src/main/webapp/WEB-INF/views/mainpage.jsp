@@ -10,7 +10,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		if (${newmember}=="1") {
+		if ("${newmember}" == "1") {
 			alert("반갑습니다. 회원가입을 축하드립니다.");
 		}
 	});

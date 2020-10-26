@@ -36,6 +36,7 @@ img {
 body {
 	background: #efefef;
 }
+
 .mystyle {
 	display: inline-block;
 	width: 100%;
@@ -55,7 +56,7 @@ body {
 
 #wrapper_mainsec {
 	margin: 0 auto;
-	padding-top:50px;
+	padding-top: 50px;
 	width: 1000px;
 	position: relative;
 }
@@ -92,7 +93,7 @@ div .contentsmargin {
 
 div #result {
 	float: right;
-	margin-top:10px;
+	margin-top: 10px;
 	box-sizing: border-box;
 	position: relative;
 }
@@ -125,6 +126,48 @@ td, th {
 	text-align: right;
 }
 
+.two {
+	color: white;
+	font-size: 15pt;
+	font-weight: bold;
+}
+
+div .result_container {
+	background-color: white;
+	margin-top: 10px;
+	margin-right: 30px;
+	box-sizing: border-box;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	overflow-x: hidden;
+	z-index: 1;
+}
+
+div .r1 {
+	width: 300px;
+	border: 1px solid #ccc;
+	padding: 15px;
+}
+
+div .r2 {
+	border: 1px solid #ccc;
+	padding: 15px;
+	height: 150px;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
+div .r3 {
+	border: 1px solid #ccc;
+	padding: 3px;
+}
+
+.r4 {
+	width: 100%;
+	border: none;
+	background-color: #555;
+	padding: 15px;
+}
+
 input[type=number]::-webkit-outer-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
@@ -137,6 +180,194 @@ input[type=number]::-webkit-inner-spin-button {
 
 /* 팝업창 */
 </style>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+	var month;
+	var depositemoney;
+	var channel;
+	var gender;
+	var birth;
+	var area;
+	var prefential;
+
+	$(document)
+			.ready(
+					function() {
+						var r2 = document.querySelector(".r2");
+						var mydiv1, mydiv2, mydiv3, mydiv4, mydiv5, mydiv6, mydiv7;
+
+						// 가입기간 결과출력
+						$("input[name='month']")
+								.change(
+										function() {
+											$("#result_f").empty();
+											mydiv1 = document
+													.createElement("div");
+											mydiv1.setAttribute("id", "mydiv1");
+											r2.appendChild(mydiv1);
+											month = $(this).val();
+											var table = "<table style='width: 100%'><tbody><tr><th>가입기간 :</th><td>"
+													+ month
+													+ "개월</td><td><input type='button' id='delbtn' value=' X '/></td></tr></tbody></table>";
+											$("#mydiv1").html(table);
+										});
+
+						//  결과출력
+						$("input[name='depositemoney']")
+								.change(
+										function() {
+											$("#result_f").empty();
+											mydiv2 = document
+													.createElement("div");
+											mydiv2.setAttribute("id", "mydiv2");
+											r2.appendChild(mydiv2);
+											depositemoney = $(this).val();
+											// 금액에 , 붙이기
+											var money = comma(depositemoney);
+											var table = "<table style='width: 100%'><tbody><tr><th>예치금 :</th><td>"
+													+ money
+													+ "원</td><td><input type='button' id='delbtn' value=' X '/></td></tr></tbody></table>";
+											$("#mydiv2").html(table);
+
+										});
+
+						// 가입경로 결과출력
+						function update_channel() {
+							$('input[name=channel]:checked').each(function() {
+								channel += $(this).val() + ",";
+							});
+							channel = channel.substring(0, channel.length - 1);
+							mydiv3 = document.createElement("div");
+							mydiv3.setAttribute("id", "mydiv3");
+							r2.appendChild(mydiv3);
+							var table = "<table><tbody><tr><th>가입경로 :</th><td>"
+									+ channel
+									+ "</td><td><input type='button' id='delbtn' value=' X '/></td></tr></tbody></table>";
+							$("#mydiv3").html(table);
+						}
+						$('input[name=channel]').change(function() {
+							$("#result_f").empty();
+							channel = "";
+							update_channel();
+						});
+
+						// 성별 결과출력
+						$("input[name='gender']")
+								.change(
+										function() {
+											$("#result_f").empty();
+											mydiv4 = document
+													.createElement("div");
+											mydiv4.setAttribute("id", "mydiv4");
+											r2.appendChild(mydiv4);
+											gender = $(this).val();
+											var table = "<table style='width: 100%'><tbody><tr><th>성별 :</th><td>"
+													+ gender
+													+ "</td><td><input type='button' id='delbtn' value=' X '/></td></tr></tbody></table>";
+											$("#mydiv4").html(table);
+										});
+
+						// 생년월일 결과출력
+						$("input[name='birth']")
+								.change(
+										function() {
+											$("#result_f").empty();
+											mydiv5 = document
+													.createElement("div");
+											mydiv5.setAttribute("id", "mydiv5");
+											r2.appendChild(mydiv5);
+											birth = $(this).val();
+											var table = "<table style='width: 100%'><tbody><tr><th>생년월일 :</th><td>"
+													+ birth
+													+ "(만 "
+													+ 00
+													+ "세)</td><td><input type='button' id='delbtn' value=' X '/></td></tr></tbody></table>";
+											$("#mydiv5").html(table);
+										});
+						// 방문가능지역 결과출력
+						function update_area() {
+							$('input[name=area]:checked').each(function() {
+								area += $(this).val() + ",";
+							});
+							mydiv6 = document.createElement("div");
+							mydiv6.setAttribute("id", "mydiv6");
+							area = area.substring(0, area.length - 1);
+							r2.appendChild(mydiv6);
+							var table = "<table style='width: 100%'><tbody><tr><th>방문가능지역 :</th><td>"
+									+ area
+									+ "</td><td><input type='button' id='delbtn' value=' X '/></td></tr></tbody></table>";
+							$("#mydiv6").html(table);
+						}
+						$('input[name=area]').change(function() {
+							$("#result_f").empty();
+							area = "";
+							update_area();
+						});
+
+						// 우대조건 결과출력
+						function update_prefential() {
+							$('input[name=prefential]:checked').each(
+									function() {
+										prefential += $(this).val() + ",";
+									});
+							mydiv7 = document.createElement("div");
+							mydiv7.setAttribute("id", "mydiv7");
+							$("#mydiv7").css("overflow", "hidden");
+							prefential = prefential.substring(0,
+									prefential.length - 1);
+							r2.appendChild(mydiv7);
+							var table = "<table style='width: 100%'><tbody><tr><th>가입우대조건 :</th><td>"
+									+ prefential
+									+ "</td><td><input type='button' id='delbtn' value=' X '/></td></tr></tbody></table>";
+							$("#mydiv7").html(table);
+							$("#mydiv7").css("overflow-x", "hidden");
+						}
+						$('input[name=prefential]').change(function() {
+							$("#result_f").empty();
+							prefential = "";
+							update_prefential();
+						});
+					});
+
+	function recommand_start() {
+		/* if (month!=null && depositemoney!=null && channel!=null && prefential!=null && area!=null && gender!=null && birth!=null ) { */
+		$.ajax({
+			url : "recommend_depos.do?month=" + month + "&depositemoney="
+					+ depositemoney + "&channel=" + channel + "&gender="
+					+ gender + "&birth=" + birth + "&area=" + area
+					+ "&prefential=" + prefential,
+			method : "get",
+			dataType : "text",
+			success : function(data) {
+
+				location.href = "recommend_depos_res.do";
+			},
+			error : function() {
+				alert("읽기실패");
+			}
+		});
+		/* 		}else {
+		 alert("필수 입력사항을 입력해주세요");
+		 } */
+	}
+
+	// 화폐 단위 , 삽입
+	function comma(num) {
+		var len, point, str;
+		num = num + ""; // 숫자형 to 문자형
+		point = num.length % 3; // 3자리씩 띄고 남은 나머지, 맨 앞자리 계산용
+		len = num.length; // num의 총 길이
+		str = num.substring(0, point); // 맨 앞자리 뺀  나머지 숫자열에 , 붙이기 위함
+		while (point < len) {
+			if (str != "")
+				str += ","; // 나머지 0일때만 ,안붙임 이외의 경우에는 str(맨앞자리)뒤에 ,삽입
+			str += num.substring(point, point + 3); // 이다음 세자리 숫자 붙임
+			point += 3; // ,를 붙이기 위해서 똑같은 나머지로 다시 만듦;
+		}
+		return str;
+	}
+</script>
 </head>
 <body>
 	<header id="header">
@@ -152,7 +383,21 @@ input[type=number]::-webkit-inner-spin-button {
 				항목입니다</span>
 		</div>
 		<div id="result">
-			<c:import url="result_show.jsp"></c:import>
+			<div class="result_container">
+				<div class="r1">
+					<font size="12" style="font-weight: bold;">나의 입력현황</font>
+				</div>
+				<div class="r2">
+					<font size="12" style="font-weight: bold;" id="result_f">아직
+						입력된 결과가 없습니다.</font>
+				</div>
+				<div class="r3">
+					<br>
+				</div>
+				<button class="r4" onclick="recommand_start()">
+					<span class="two">결과보기</span>
+				</button>
+			</div>
 		</div>
 		<div id="select">
 			<form action="">
@@ -163,7 +408,8 @@ input[type=number]::-webkit-inner-spin-button {
 							<tr>
 								<td width="90%" style="text-align: right;"><input
 									type="number" class="input_font" value="0" name=""></td>
-								<td width="10%" style="text-align: right;"><span class="one">개월</span></td>
+								<td width="10%" style="text-align: right;"><span
+									class="one">개월</span></td>
 							</tr>
 						</table>
 						<hr class="hr_1">
@@ -175,7 +421,8 @@ input[type=number]::-webkit-inner-spin-button {
 							<tr>
 								<td width="90%" style="text-align: right;"><input
 									type="number" class="input_font" value="0" name=""></td>
-								<td width="10%" style="text-align: right;"><span class="one">원</span></td>
+								<td width="10%" style="text-align: right;"><span
+									class="one">원</span></td>
 							</tr>
 						</table>
 						<hr class="hr_1">

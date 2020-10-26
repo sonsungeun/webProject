@@ -6,6 +6,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -27,15 +29,12 @@ import com.ict.db.MyVO1;
 import com.ict.service.JsonService;
 import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
-
-
-
-
-
 @RestController
 public class MyAjaxController {
-	
-	
+	// 예금 추천 결과 저장하는 arraylist;(원래는 view단으로 arraylist를 보냈다가 해당 정보를 다시 controller로 받아서 페이지
+	// 이동하려고했는데... 너무 복잡해서 일단 임시방편용으로)
+	ArrayList<DepositeVO> result = null;
+
 	@Autowired
 	private JsonService jsonService;
 
@@ -89,15 +88,15 @@ public class MyAjaxController {
 		set.put("text", textmsg); // 문자내용
 		set.put("type", "sms"); // 문자 타입
 
-		JSONObject result=null;
+		JSONObject result = null;
 		try {
 			// 보내기
 			result = coolsms.send(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		
+		}
+
 		// 전송결과받기
 		if ((boolean) result.get("status") == true) { // 메시지 보내기 성공 및 전송결과 출력
 			System.out.println("성공");
@@ -110,11 +109,11 @@ public class MyAjaxController {
 	}
 
 	// 예금 json 읽어오기
-	@RequestMapping(value = "recommend_depos.do", produces = "text/html; charset=UTF-8")
-	public String DepositeJson(HttpServletRequest request) {
+	@RequestMapping(value = "recommend_depos.do")
+	@ResponseBody
+	public Object DepositeJson(HttpServletRequest request) {
 		StringBuffer sb = new StringBuffer();
 		String json = "";
-		ArrayList<DepositeVO> result = null;
 		try {
 			URL url = new URL(
 					"http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json?auth=31f7ce5fdcc4aa6aae56ce7372bf292f&topFinGrpNo=020000&pageNo=1");
@@ -134,14 +133,21 @@ public class MyAjaxController {
 			mine.setPrefential(request.getParameter("prefential"));
 			// vo(개인이 선택한 정보) 넘기기, json 파싱, 추천 로직
 			result = jsonService.jsonParser01(sb.toString().trim(), mine);
-			ModelAndView mv = new ModelAndView("redirect:result.do");
-		
 		} catch (Exception e) {
 			System.out.println("2222222222" + e);
 		}
-		return sb.toString();
+		return result.size();
 	}
-	
+
+	// 예금 추천 결과 페이지로 이동
+	@RequestMapping(value = "recommend_depos_res.do")
+	public ModelAndView showDepoResCommand() {
+		ModelAndView mv = new ModelAndView("recommend_result");
+		mv.addObject("result", result);
+		mv.addObject("res","예금 추천 결과");
+		return mv;
+	}
+
 	// 적금 json읽어오기
 	@RequestMapping(value = "recommend_saving.do", produces = "text/html; charset=UTF-8")
 	public String SavingJson(HttpServletRequest request) {
@@ -149,7 +155,7 @@ public class MyAjaxController {
 		String json = "";
 		try {
 			URL url = new URL(
-					"http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json?auth=31f7ce5fdcc4aa6aae56ce7372bf292f&topFinGrpNo=020000&pageNo=1");
+					"http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.xml?auth=31f7ce5fdcc4aa6aae56ce7372bf292f&topFinGrpNo=020000&pageNo=1");
 			URLConnection conn = url.openConnection();
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
 			while ((json = br.readLine()) != null) {
@@ -172,10 +178,15 @@ public class MyAjaxController {
 		}
 		return sb.toString();
 	}
-	@RequestMapping("result.do")
-	public ModelAndView viewing(Object result) {
+	
+	// 적금 추천 결과 페이지로 이동
+	@RequestMapping(value = "recommend_saving_res.do")
+	public ModelAndView showSaveResCommand() {
 		ModelAndView mv = new ModelAndView("recommend_result");
-		mv.addObject("result",result);
+		mv.addObject("result", result);
+		mv.addObject("res","적금 추천 결과");
 		return mv;
 	}
+
+
 }

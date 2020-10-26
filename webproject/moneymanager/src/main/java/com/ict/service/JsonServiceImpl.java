@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.ict.db.DepositeVO;
 import com.ict.db.MyVO1;
+import com.ict.db.SavingVO;
 
 @Service
 public class JsonServiceImpl implements JsonService {
@@ -116,20 +117,16 @@ public class JsonServiceImpl implements JsonService {
 			}
 		}
 
-		// 결과 리스트 보기(Test)
-		System.out.println("내 입력 기간  : " + mine.getMonth());
-		System.out.println("내 입력 체널 : " + mine.getChannel());
-		System.out.println("내 예치금 : " + mine.getDepositemoney());
-		for (DepositeVO k : resultList) {
-			if (resultList.size() == 0) {
-				System.out.println("상품이 없습니다.");
-			}
-			System.out.println(k + "번째 결과");
-			System.out.println("상품명" + k.getFin_prdt_nm());
-			System.out.println("이율" + k.getIntr_rate());
-			System.out.println("가입경로" + k.getJoin_way());
-			System.out.println("예치기간" + k.getSave_trm());
-		}
+		/*
+		 * // 결과 리스트 보기(Test) System.out.println("내 입력 기간  : " + mine.getMonth());
+		 * System.out.println("내 입력 체널 : " + mine.getChannel());
+		 * System.out.println("내 예치금 : " + mine.getDepositemoney()); for (DepositeVO k :
+		 * resultList) { if (resultList.size() == 0) { System.out.println("상품이 없습니다.");
+		 * } System.out.println(k + "번째 결과"); System.out.println("상품명" +
+		 * k.getFin_prdt_nm()); System.out.println("이율" + k.getIntr_rate());
+		 * System.out.println("가입경로" + k.getJoin_way()); System.out.println("예치기간" +
+		 * k.getSave_trm()); }
+		 */
 		System.out.println(resultList.size());
 		// 결과(resultList)를 이자율 높은 순으로 정렬
 		Collections.sort(resultList, new Comparator<DepositeVO>() {
@@ -147,19 +144,18 @@ public class JsonServiceImpl implements JsonService {
 				}
 			}
 		});
-
-		for (DepositeVO k : resultList) {
-			System.out.println("이자율 : " + k.getIntr_rate());
-			System.out.println("상품명 : " + k.getFin_prdt_nm());
-			System.out.println("====================");
-		}
-		
+		/*
+		 * // 정렬결과 test for (DepositeVO k : resultList) { System.out.println("이자율 : " +
+		 * k.getIntr_rate()); System.out.println("상품명 : " + k.getFin_prdt_nm());
+		 * System.out.println("===================="); }
+		 */		
 		return resultList;
 	}
 	
 	@Override
-	public void jsonParser02(String str, MyVO1 mVo1) {
-		// TODO Auto-generated method stub
+	public ArrayList<SavingVO> jsonParser02(String str, MyVO1 mVo1) {
+		ArrayList<SavingVO> resultList = new ArrayList<SavingVO>();
 		
+		return resultList;
 	}
 }
