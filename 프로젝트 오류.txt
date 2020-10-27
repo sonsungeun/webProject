@@ -1,0 +1,17 @@
+10-22
+1. 댓글있는 원글의 삭제 오류
+2. 댓글 수정 후 목록으로 이동 시 
+java.lang.NumberFormatException: For input string: "" 오류 발생
+3. 로그인된 것만 글작성 가능하게 하는 javascript함수 작동 안함
+
+10-23
+4. coolsms사용해서 휴대전화 인증 시스템 구축 예정 (인증번호생성, 제이쿼리 ui구현해 놓음)
+이었으나
+sdk2.2 version으로 변경되면서 메소드 자체가 변경되어 
+참조할 example이 무존재....
+sdk2.1 version으로 클래스파일 추가해서 해보려했으나 지원이 끊겼는지
+nullpointexecption이 ㄷ뜨면서 실패...
+다른 사이트의 sdk 시스템을 사용해봐야할것같음
+
+
+5. 

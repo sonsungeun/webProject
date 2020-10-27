@@ -1,0 +1,39 @@
+create table mm_member(
+    mid varchar2(100) not null,
+    mnickname varchar2(100) not null,
+    mpw varchar2(100) not NULL,
+    mname varchar2(15) not NULL,
+    mfindpw varchar2(100) not NULL,
+    mphone VARCHAR2(12) not NULL,
+    PRIMARY key(mid, mnickname)
+);
+
+create table mm_board(
+    b_idx number not null,
+    mnickname varchar2(100) not null,
+    mid varchar2(100),
+    title varchar2(100),
+    content CLOB,
+    hit number,
+    regdate date,
+    CONSTRAINT boards_pk PRIMARY key (b_idx),
+    CONSTRAINT boards_fk FOREIGN KEY (mnickname,mid) REFERENCES mm_member(mnickname,mid)
+);
+
+create table mm_board_comment(
+    c_idx number not null primary key,
+    b_idx number,
+    writer varchar2(100),
+    contents varchar2(300),
+    write_date date,
+    CONSTRAINT comment_fk FOREIGN key (b_idx) REFERENCES mm_board(b_idx)
+);
+
+
+create SEQUENCE mm_board_seq
+INCREMENT by 1
+start with 1;
+
+create SEQUENCE mm_board_comment_seq
+INCREMENT by 1
+start with 1;
