@@ -43,7 +43,22 @@ public class MyController {
 		ModelAndView mv = new ModelAndView("mainpage");
 		return mv;
 	}
-
+	
+	@RequestMapping("gocalendar.do")
+	public ModelAndView goCalendar() {
+		ModelAndView mv = new ModelAndView("calendar");
+		return mv;
+	}
+	@RequestMapping("goout.do")
+	public ModelAndView goOut() {
+		ModelAndView mv = new ModelAndView("out");
+		return mv;
+	}
+	@RequestMapping("goin.do")
+	public ModelAndView goIn() {
+		ModelAndView mv = new ModelAndView("in");
+		return mv;
+	}
 	@RequestMapping("godeposite.do")
 	public ModelAndView goDeposite() {
 		ModelAndView mv = new ModelAndView("deposite_recommend_q");

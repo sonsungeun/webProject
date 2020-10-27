@@ -92,7 +92,7 @@ li a:hover, .dropdown:hover .dropbutt{
 				<div class="dropdown-content">
 						<a href="">App 소개</a>
 						<hr style="border: solid 1px grey; width: 100%; border-style: solid none none none;" >
-						<a href="">가계부</a>
+						<a href="gocalendar.do">가계부</a>
 						<hr style="border: solid 1px grey; width: 100%; border-style: solid none none none;" >
 						<p style="padding-left: 16px; padding-top: 10px; padding-bottom: 5px; "><b>&nbsp;-&nbsp;소비생활 리포트</b></p>
 						<a href="">주별리포트</a>

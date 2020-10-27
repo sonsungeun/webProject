@@ -69,6 +69,7 @@ table {
 	width: 100%;
 	margin-top: 50px;
 	border-collapse: collapse;
+	margin-bottom: 50px;
 }
 
 table, th, td {
